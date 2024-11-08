@@ -1,0 +1,7 @@
+Database - For weather data, we can go with AWS RDS (Relational Database Service) running SQLite. If the complexity increases or the load or scalability we can go with PostGres. For now SQLite is the best choice.
+
+The API can be deployed to EKS or Serverless Lambda based on the amount of workload. 
+For our current Flask API, as it is dealing with simple GET calls from direct tables and low traffic, it is more cost effective to go with Serverless Lambda. 
+This needs the Serverless framework to be installed and a serverless project to be created with a lambda handler to route the incoming requests to the Flask application.
+
+We can have Apache airflow DAG setup to ingest the data as per schedule. We can store raw data files in S3.
