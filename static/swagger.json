@@ -1,0 +1,155 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Weather API",
+      "version": "1.0.0",
+      "description": "A simple weather API with ingested weather and analysis data"
+    },
+    "paths": {
+      "/api/weather": {
+        "get": {
+          "summary": "Get weather data",
+          "parameters": [
+            {
+              "name": "stationId",
+              "in": "query",
+              "description": "Filter by station ID",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "date",
+              "in": "query",
+              "description": "Filter by date (yyyymmdd)",
+              "schema": {
+                "type": "string"
+                            }
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number for pagination",
+              "schema": {
+                "type": "integer",
+                "default": 1
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of weather data",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/WeatherData"
+                        }
+                      },
+                      "page": {
+                        "type": "integer"
+                      },
+                      "total_pages": {
+                        "type": "integer"
+                      },
+                      "total_count": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/weather/stats": {
+        "get": {
+          "summary": "Get weather analysis",
+          "parameters": [
+            {
+              "name": "stationId",
+              "in": "query",
+              "description": "Filter by station ID",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "name": "year",
+              "in": "query",
+              "description": "Filter by year (yyyy)",
+              "schema": {
+                "type": "integer",
+                "pattern": "^[0-9]{4}$"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Weather analysis data",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/WeatherStats"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "WeatherData": {
+          "type": "object",
+          "properties": {
+            "stationId": {
+              "type": "integer"
+            },
+            "date": {
+               "type": "string"
+            },
+            "maxTemperature": {
+              "type": "integer"
+            },
+            "minTemperature": {
+              "type": "integer"
+            },
+            "precipitaion": {
+              "type": "integer"
+            }
+          }
+        },
+        "WeatherStats": {
+          "type": "object",
+          "properties": {
+            "stationId": {
+              "type": "integer"
+            },
+            "year": {
+              "type": "integer"
+            },
+            "avgMaxTemperature": {
+              "type": "number"
+            },
+            "avgMintemperature": {
+              "type": "number"
+            },
+            "totalPrecipitation": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+  
